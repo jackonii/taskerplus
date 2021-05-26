@@ -21,17 +21,27 @@ What this script can do:
 
 Configuration is stored inside tasker.conf file.
     
-Socket server:
+Socket server
+=
 
 You can control devices through socket client. It can by ncat on linux, or socket widget on android. You need to put server IP, Port (UDP or TCP) and command.
 
 Available commands:
-denonvolup
-denonvoldn
-denonsat
-denontv
-denonoff
-webosoff
+
+1. denonvolup
+2. denonvoldn
+3. denonsat
+4. denontv
+5. denonoff
+6. webosoff
+
+MAC Monitor
+=
+    Command for access points in cron every 1min or less with extra script
+    wlan0 and wlan1 are an example wifi interfaces. You should adequate for your router.
+    
+    ((echo "mac_list_ap1 ago" && (iwinfo wlan0 assoclist & iwinfo wlan1 assoclist)) | grep ago | cut -d " " -f1 | tr "\n" ";") | xargs -I ARG echo ARG | ncat -u HOST_IP UDP_PORT
+    ((echo "mac_list_ap2 ago" && (iwinfo wlan0 assoclist & iwinfo wlan1 assoclist)) | grep ago | cut -d " " -f1 | tr "\n" ";") | xargs -I ARG echo ARG | ncat -u HOST_IP UDP_PORT
 
 Dependencies:
 =
