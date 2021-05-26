@@ -43,6 +43,35 @@ MAC Monitor
     ((echo "mac_list_ap1 ago" && (iwinfo wlan0 assoclist & iwinfo wlan1 assoclist)) | grep ago | cut -d " " -f1 | tr "\n" ";") | xargs -I ARG echo ARG | ncat -u HOST_IP UDP_PORT
     ((echo "mac_list_ap2 ago" && (iwinfo wlan0 assoclist & iwinfo wlan1 assoclist)) | grep ago | cut -d " " -f1 | tr "\n" ";") | xargs -I ARG echo ARG | ncat -u HOST_IP UDP_PORT
 
+Power button logic and additional function
+=
+<b>Denon on/off logic:</b>
+
+This was created because Denon is not only used as TV sound output. Other output are used e.g. SAT.
+
+Problem: there is only one custom button on webos remote (STB PWR) to power on, power off other device
+and the only info I can get from denon is power state (no current input set)
+Example: TV is off, Denon is on with input SAT. I want to start watching TV. Turn TV on and press STB PWR on
+TV remote. Without additional logic Denon will go off (if Denon is power on: turn off)
+Solution: Based on users habits some conditions were created
+
+Condition 0: Denon is on (if you are here it means condition was met)
+
+Condition 1: TV must by ON
+
+Condition 2: TV was turn on recently - default within 180s
+
+If cond 1 and 2 are met denon do not go off only input is change to tv
+
+There is period (default 10s) in which you can bypass
+logic (additional STD PWR press) if it doesn't meet expectations
+
+<b>Additional functions:</b>
+
+If TV is ON and you will press power buttom twice denon output will be changed to TV.
+
+If TV is OFF and you will press power buttom twice denon output will be changed to SAT.
+
 Dependencies:
 =
 
